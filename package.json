@@ -1,6 +1,10 @@
 {
-  "dependencies": {
-    "minimist": "^1.2.6",
-    "puppeteer": "^13.5.2"
-  }
+    "dependencies": {
+        "axios": "^1.6.5",
+        "minimist": "^1.2.6",
+        "puppeteer": "^13.5.2"
+    },
+    "scripts": {
+        "start": "node usappointment.js -r 'ca' -d '2024-06-22' -u duhamuhamed99@gmail.com -p ztb-fkn2pty@NVX4hym -a 54630105 -c 94 -t 180  "
+    }
 }
