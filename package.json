@@ -5,6 +5,6 @@
         "puppeteer": "^13.5.2"
     },
     "scripts": {
-        "start": "node usappointment.js -r 'ca' -d '2024-06-22' -u duhamuhamed99@gmail.com -p ztb-fkn2pty@NVX4hym -a 54630105 -c 94 -t 180 -n uo2xcn6ku9cmr6wzx7infz6jafq5kv"
+        "start": "node usappointment.js -r 'ca' -d '2025-01-07' -u duhamuhamed99@gmail.com -p ztb-fkn2pty@NVX4hym -a 54630105 -c 94 -t 180 -n uo2xcn6ku9cmr6wzx7infz6jafq5kv"
     }
 }
