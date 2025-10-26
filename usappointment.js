@@ -1,18 +1,16 @@
 const puppeteer = require('puppeteer');
 const parseArgs = require('minimist');
-const axios = require('axios');
 
 const MAX_DATE_PICKER_LOOKUP = 12 * 4;
 (async () => {
     //#region Command line args
-    const args = parseArgs(process.argv.slice(2), { string: ['u', 'p', 'c', 'a', 'n', 'd', 'r'], boolean: ['g'] })
+    const args = parseArgs(process.argv.slice(2), { string: ['u', 'p', 'c', 'a', 'd', 'r'], boolean: ['g'] })
     const currentDate = new Date(args.d);
     const usernameInput = args.u;
     const passwordInput = args.p;
     const appointmentId = args.a;
     const retryTimeout = args.t * 1000;
     const consularId = args.c;
-    const userToken = args.n;
     const groupAppointment = args.g;
     const region = args.r;
     //#endregion
@@ -124,21 +122,6 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
 
     async function notify(msg) {
         log(msg);
-
-        if (!userToken)
-        {
-            return;
-        }
-
-        const pushOverAppToken = 'a5o8qtigtvu3yyfaeehtnzfkm88zc9';
-        const apiEndpoint = 'https://api.pushover.net/1/messages.json';
-        const data = {
-            token: pushOverAppToken,
-            user: userToken,
-            message: msg
-        };
-
-        await axios.post(apiEndpoint, data);
     }
     //#endregion
 
@@ -397,7 +380,7 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
     while (true)
     {
         // Change value of headless to "false" to see puppeteer in action
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 
         try
         {
