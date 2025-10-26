@@ -1,16 +1,18 @@
 const puppeteer = require('puppeteer');
 const parseArgs = require('minimist');
+const axios = require('axios');
 
 const MAX_DATE_PICKER_LOOKUP = 12 * 4;
 (async () => {
     //#region Command line args
-    const args = parseArgs(process.argv.slice(2), { string: ['u', 'p', 'c', 'a', 'd', 'r'], boolean: ['g'] })
+    const args = parseArgs(process.argv.slice(2), { string: ['u', 'p', 'c', 'a', 'n', 'd', 'r'], boolean: ['g'] })
     const currentDate = new Date(args.d);
     const usernameInput = args.u;
     const passwordInput = args.p;
     const appointmentId = args.a;
     const retryTimeout = args.t * 1000;
     const consularId = args.c;
+    const userToken = args.n;
     const groupAppointment = args.g;
     const region = args.r;
     //#endregion
@@ -129,6 +131,14 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
         const smallTimeout = 100;
         page.setDefaultTimeout(timeout);
         page.setDefaultNavigationTimeout(navigationTimeout);
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
+        'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+        'Chrome/120.0.0.0 Safari/537.36');
+
+        await page.setExtraHTTPHeaders({
+        'Accept-Language': 'en-US,en;q=0.9'
+        });
+
 
         //#region Logic
         // Set the viewport to avoid elements changing places 
@@ -247,7 +257,7 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
         // Go to appointment page
         {
             const targetPage = page;
-            await targetPage.goto('https://ais.usvisa-info.com/en-' + region + '/niv/schedule/' + appointmentId + '/appointment?confirmed_limit_message=1&commit=Continue', { waitUntil: 'domcontentloaded' });
+            await targetPage.goto('https://ais.usvisa-info.com/en-' + region + '/niv/schedule/' + appointmentId + '/appointment', { waitUntil: 'domcontentloaded' });
             await sleep(1000);
         }
 
@@ -376,7 +386,17 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
     while (true)
     {
         // Change value of headless to "false" to see puppeteer in action
-        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+        const browser = await puppeteer.launch({
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--window-size=1280,800',
+            '--start-maximized'
+            ]
+        });
 
         try
         {
