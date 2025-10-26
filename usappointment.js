@@ -376,7 +376,7 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
     while (true)
     {
         // Change value of headless to "false" to see puppeteer in action
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 
         try
         {
