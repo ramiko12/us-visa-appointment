@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const parseArgs = require('minimist');
+const axios = require('axios');
 
 const MAX_DATE_PICKER_LOOKUP = 12 * 4;
 (async () => {
@@ -120,9 +121,6 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
         console.log(currentDate, msg);
     }
 
-    async function notify(msg) {
-        log(msg);
-    }
     //#endregion
 
     async function runLogic(browser) {
@@ -245,7 +243,6 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
                 return false;
             }
 
-            notify("Found an earlier date! " + firstDate.toISOString().slice(0, 10));
         }
 
         // Go to appointment page
@@ -380,21 +377,20 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
     while (true)
     {
         // Change value of headless to "false" to see puppeteer in action
-        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+        const browser = await puppeteer.launch({ headless: false });
 
         try
         {
-            console.log("Starting a new iteration to check for available dates...");
             const result = await runLogic(browser);
 
             if (result)
             {
-                notify("Successfully scheduled a new appointment");
+                log("Successfully scheduled a new appointment");
                 break;
             }
         } catch (err)
         {
-           console.error("Error occurred during execution: ", err);
+            console.error(err, err.stack);
         } finally
         {
             close(browser)
