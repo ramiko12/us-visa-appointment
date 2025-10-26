@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const parseArgs = require('minimist');
-const axios = require('axios');
 
 const MAX_DATE_PICKER_LOOKUP = 12 * 4;
 (async () => {
@@ -248,7 +247,7 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
         // Go to appointment page
         {
             const targetPage = page;
-            await targetPage.goto('https://ais.usvisa-info.com/en-' + region + '/niv/schedule/' + appointmentId + '/appointment', { waitUntil: 'domcontentloaded' });
+            await targetPage.goto('https://ais.usvisa-info.com/en-' + region + '/niv/schedule/' + appointmentId + '/appointment?confirmed_limit_message=1&commit=Continue', { waitUntil: 'domcontentloaded' });
             await sleep(1000);
         }
 
