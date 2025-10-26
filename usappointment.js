@@ -384,6 +384,7 @@ const MAX_DATE_PICKER_LOOKUP = 12 * 4;
 
         try
         {
+            console.log("Starting a new iteration to check for available dates...");
             const result = await runLogic(browser);
 
             if (result)
